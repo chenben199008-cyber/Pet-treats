@@ -1,4 +1,5 @@
 const STORAGE_KEY = "weiheDemoUser";
+const SESSION_KEY = "weiheSession";
 const PHONE_PATTERN = /^1\d{10}$/;
 
 function setFieldError(input, message) {
@@ -105,6 +106,9 @@ if (loginForm) {
     }
 
     setStatus(status, "登录演示成功，即将返回首页。");
+    try {
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify({ role: "user", startedAt: new Date().toISOString() }));
+    } catch {}
     window.setTimeout(() => {
       window.location.href = "index.html";
     }, 700);

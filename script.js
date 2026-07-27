@@ -207,6 +207,7 @@ function showToast(message) {
 }
 
 function showCartPlaceholder(product) {
+  if (!window.WeiheAccount?.requireLoginForPurchase(document.activeElement)) return;
   const suffix = product ? `“${product.name}”已记录，` : "";
   showToast(`${suffix}购物车将在下一阶段开放`);
 }
