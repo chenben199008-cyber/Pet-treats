@@ -92,6 +92,7 @@ const products = [
 ];
 
 const grid = document.querySelector("#product-grid");
+const rankingList = document.querySelector("#ranking-list");
 const modalBackdrop = document.querySelector("#product-modal");
 const modal = modalBackdrop.querySelector(".product-modal");
 const closeButton = modalBackdrop.querySelector(".modal-close");
@@ -107,6 +108,9 @@ function formatPrice(priceCents) {
 }
 
 function createProductCard(product, index) {
+  const salesRank = [...products]
+    .sort((a, b) => b.monthlySales - a.monthlySales)
+    .findIndex((item) => item.id === product.id) + 1;
   const article = document.createElement("article");
   article.className = "product-card";
   article.style.animationDelay = `${index * 55}ms`;
@@ -117,12 +121,16 @@ function createProductCard(product, index) {
     </div>
     <div class="product-info">
       <p class="product-pets">${product.petTypes.join(" · ")} / ${product.foodCategory}</p>
-      <h3>${product.name}</h3>
+      <div class="product-title-row">
+        <h3>${product.name}</h3>
+        <strong>${formatPrice(product.priceCents)}</strong>
+      </div>
       <p class="product-description">${product.description}</p>
       <div class="product-meta">
         <span>${product.specification}</span>
-        <strong>${formatPrice(product.priceCents)}</strong>
+        <span class="monthly-sales">月销 ${product.monthlySales.toLocaleString("zh-CN")}</span>
       </div>
+      <p class="sales-rank ${salesRank <= 3 ? "is-top" : ""}">热销第 ${salesRank} 名</p>
       <div class="product-actions">
         <button class="detail-button" type="button" data-detail="${product.id}" aria-label="查看${product.name}详情">查看详情</button>
         <button class="add-button" type="button" data-add="${product.id}" aria-label="将${product.name}加入购物车">＋</button>
@@ -135,11 +143,36 @@ function createProductCard(product, index) {
   return article;
 }
 
+function renderHotRanking() {
+  const rankedProducts = [...products]
+    .sort((a, b) => b.monthlySales - a.monthlySales)
+    .slice(0, 3);
+
+  rankingList.innerHTML = rankedProducts.map((product, index) => `
+    <button class="ranking-item" type="button" data-ranking="${product.id}" aria-label="查看热销第${index + 1}名${product.name}">
+      <span class="ranking-number">0${index + 1}</span>
+      <img src="${product.image}" alt="">
+      <span class="ranking-info">
+        <small>TOP ${index + 1} · 月销 ${product.monthlySales.toLocaleString("zh-CN")}</small>
+        <strong>${product.name}</strong>
+      </span>
+      <b>${formatPrice(product.priceCents)}</b>
+    </button>
+  `).join("");
+}
+
 function renderProducts() {
   const fragment = document.createDocumentFragment();
   products.forEach((product, index) => fragment.appendChild(createProductCard(product, index)));
   grid.replaceChildren(fragment);
 }
+
+rankingList.addEventListener("click", (event) => {
+  const trigger = event.target.closest("[data-ranking]");
+  if (!trigger) return;
+  const product = products.find((item) => item.id === Number(trigger.dataset.ranking));
+  if (product) openProductModal(product, trigger);
+});
 
 function openProductModal(product, trigger) {
   activeProduct = product;
@@ -218,4 +251,5 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+renderHotRanking();
 renderProducts();
