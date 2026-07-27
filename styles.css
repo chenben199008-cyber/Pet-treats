@@ -83,6 +83,17 @@ button, a { -webkit-tap-highlight-color: transparent; }
   transition: right 0.25s ease;
 }
 .main-nav a:hover::after { right: 0; }
+.account-entry {
+  display: none;
+  min-height: 44px;
+  padding: 0 16px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--green);
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+}
 .bag-placeholder {
   min-height: 44px;
   padding: 0;
@@ -509,6 +520,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 @media (max-width: 680px) {
   .site-header { height: 70px; padding: 0 18px; position: sticky; top: 0; }
   .main-nav { display: none; }
+  .account-entry { display: inline-flex; margin-left: auto; }
   .brand-symbol { width: 36px; height: 36px; font-size: 18px; }
   .brand-name { font-size: 16px; }
   .bag-placeholder > span { display: none; }

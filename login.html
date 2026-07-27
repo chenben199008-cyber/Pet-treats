@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="登录威禾小食演示账号">
+  <title>登录｜威禾小食</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="auth.css">
+  <script src="auth.js" defer></script>
+</head>
+<body class="auth-page" data-auth-page="login">
+  <a class="skip-link" href="#auth-main">跳到登录表单</a>
+
+  <header class="auth-header">
+    <a class="brand" href="index.html" aria-label="返回威禾小食首页">
+      <span class="brand-symbol" aria-hidden="true">禾</span>
+      <span class="brand-name">威禾小食<small>WEIHE PET TREATS</small></span>
+    </a>
+    <a class="auth-back" href="index.html">返回首页</a>
+  </header>
+
+  <main class="auth-main" id="auth-main">
+    <section class="auth-story" aria-labelledby="story-title">
+      <p class="kicker">A LITTLE ACCOUNT, MORE CONVENIENCE</p>
+      <h1 id="story-title">把每一次挑选，<br><em>留在温暖的日常里。</em></h1>
+      <p>登录功能目前仅用于体验页面流程。你的输入不会上传，也不会产生真实账号或交易。</p>
+      <ul>
+        <li>本地演示，不连接服务器</li>
+        <li>密码不会被保存</li>
+        <li>为后续收货地址功能预留结构</li>
+      </ul>
+    </section>
+
+    <section class="auth-card" aria-labelledby="auth-title">
+      <p class="kicker">WELCOME BACK</p>
+      <h2 id="auth-title">登录演示账号</h2>
+      <p class="auth-intro">请输入手机号和密码，体验账户登录流程。</p>
+
+      <form id="login-form" novalidate>
+        <div class="field">
+          <label for="login-phone">手机号</label>
+          <input id="login-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="11" placeholder="请输入 11 位手机号" aria-describedby="login-phone-error">
+          <p class="field-error" id="login-phone-error" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <label for="login-password">密码</label>
+          <div class="password-control">
+            <input id="login-password" name="password" type="password" autocomplete="current-password" minlength="6" placeholder="请输入至少 6 位密码" aria-describedby="login-password-error">
+            <button class="password-toggle" type="button" data-password-toggle="login-password" aria-label="显示密码">显示</button>
+          </div>
+          <p class="field-error" id="login-password-error" aria-live="polite"></p>
+        </div>
+
+        <div class="form-status" id="login-status" role="status" aria-live="polite"></div>
+        <button class="button button-primary auth-submit" type="submit">登录</button>
+      </form>
+
+      <p class="auth-switch">还没有演示账号？<a href="register.html">立即注册</a></p>
+      <p class="privacy-note">演示说明：本页面不会验证真实身份，不会上传或保存密码。</p>
+    </section>
+  </main>
+</body>
+</html>
