@@ -3,3 +3,19 @@ Thumbs.db
 desktop.ini
 *.log
 tmp/
+
+# Editor settings
+.vscode/
+.idea/
+*.swp
+
+# Dependencies and generated output
+node_modules/
+dist/
+build/
+coverage/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
