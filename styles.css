@@ -1,0 +1,482 @@
+:root {
+  --cream: #f5f1e8;
+  --paper: #fcfaf5;
+  --green: #1f4938;
+  --green-dark: #153327;
+  --brown: #9a6846;
+  --ink: #20251f;
+  --muted: #687068;
+  --line: rgba(32, 37, 31, 0.16);
+  --white: #fff;
+  --shadow: 0 18px 50px rgba(31, 49, 39, 0.12);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: "Noto Sans SC", "Microsoft YaHei", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+body.modal-open { overflow: hidden; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { color: inherit; font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 2px solid var(--brown); outline-offset: 4px; }
+
+.skip-link {
+  position: fixed;
+  left: 16px;
+  top: -60px;
+  z-index: 200;
+  padding: 12px 18px;
+  color: var(--white);
+  background: var(--green);
+}
+.skip-link:focus { top: 16px; }
+
+.site-header {
+  height: 84px;
+  padding: 0 clamp(22px, 5vw, 80px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(252, 250, 245, 0.94);
+  backdrop-filter: blur(12px);
+  position: relative;
+  z-index: 20;
+}
+.brand { display: flex; align-items: center; gap: 12px; min-width: max-content; }
+.brand-symbol {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--paper);
+  background: var(--green);
+  font: 600 21px "Songti SC", serif;
+}
+.brand-name { font: 700 19px "Songti SC", serif; letter-spacing: 0.1em; }
+.brand-name small {
+  display: block;
+  margin-top: 2px;
+  font: 8px Arial, sans-serif;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+}
+.main-nav { display: flex; align-items: center; gap: 38px; font-size: 13px; }
+.main-nav a { position: relative; padding: 10px 0; }
+.main-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: 4px;
+  height: 1px;
+  background: var(--green);
+  transition: right 0.25s ease;
+}
+.main-nav a:hover::after { right: 0; }
+.bag-placeholder {
+  min-height: 44px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-size: 12px;
+}
+.bag-placeholder b {
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--white);
+  background: var(--green);
+  font-size: 10px;
+}
+
+.hero {
+  min-height: calc(100vh - 84px);
+  display: grid;
+  grid-template-columns: minmax(0, 47%) minmax(0, 53%);
+  background: var(--cream);
+}
+.hero-copy {
+  padding: clamp(70px, 10vw, 150px) clamp(34px, 7vw, 112px) 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.kicker {
+  margin: 0 0 22px;
+  color: var(--brown);
+  font: 700 10px/1.4 Arial, sans-serif;
+  letter-spacing: 0.21em;
+}
+.hero h1,
+.intro h2,
+.products-heading h2,
+.care-note h2 {
+  margin: 0;
+  font: 600 clamp(42px, 5.2vw, 76px)/1.18 "Songti SC", "STSong", serif;
+  letter-spacing: -0.045em;
+}
+.hero h1 em { color: var(--green); font-style: normal; }
+.hero-description {
+  max-width: 530px;
+  margin: 30px 0 34px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 2;
+}
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.button {
+  min-height: 50px;
+  padding: 0 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--green);
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 12px;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.button:hover { transform: translateY(-2px); }
+.button-primary { color: var(--white); background: var(--green); }
+.button-primary:hover { background: var(--green-dark); }
+.button-secondary { color: var(--green); background: transparent; }
+.hero-points {
+  margin: auto 0 0;
+  padding: 28px 0 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  list-style: none;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+}
+.hero-points strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--brown);
+  font: 10px Arial, sans-serif;
+}
+.hero-media { margin: 0; min-height: 650px; position: relative; overflow: hidden; background: #d9d2c5; }
+.hero-media img { width: 100%; height: 100%; object-fit: cover; object-position: 55% center; }
+.hero-media figcaption {
+  position: absolute;
+  right: 28px;
+  bottom: 28px;
+  padding: 10px 14px;
+  color: var(--white);
+  background: rgba(31, 73, 56, 0.9);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.intro { padding: 110px clamp(24px, 7vw, 112px); }
+.section-label { display: flex; gap: 20px; align-items: center; color: var(--brown); }
+.section-label span {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 9px;
+}
+.section-label p { margin: 0; font: 700 9px Arial; letter-spacing: 0.2em; }
+.intro-copy {
+  margin-top: 46px;
+  display: grid;
+  grid-template-columns: 1.5fr 0.8fr;
+  gap: 10vw;
+  align-items: end;
+}
+.intro h2,
+.products-heading h2,
+.care-note h2 { font-size: clamp(34px, 4vw, 58px); }
+.intro-copy > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 2;
+}
+.principles {
+  margin-top: 68px;
+  padding-top: 48px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(28px, 5vw, 80px);
+  border-top: 1px solid var(--line);
+}
+.principles article { position: relative; padding-left: 48px; }
+.principles article > span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  color: var(--green);
+  border: 1px solid var(--green);
+  border-radius: 50%;
+  font: 500 15px serif;
+}
+.principles h3 { margin: 3px 0 13px; font: 600 20px "Songti SC", serif; }
+.principles p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.9; }
+
+.products-section { padding: 110px clamp(18px, 5vw, 80px) 120px; background: #e9e4d9; }
+.products-heading {
+  margin: 0 clamp(6px, 2vw, 32px) 48px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 40px;
+}
+.products-heading > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.9;
+}
+.product-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.product-card { min-width: 0; background: var(--paper); animation: card-in 0.45s ease both; }
+.product-image-wrap {
+  aspect-ratio: 1.12;
+  position: relative;
+  overflow: hidden;
+  background: #d8d2c6;
+}
+.product-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease, opacity 0.2s ease;
+}
+.product-card:hover img { transform: scale(1.035); }
+.product-image-wrap.image-fallback::after {
+  content: "威禾小食";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--green);
+  background: linear-gradient(145deg, #ece5d7, #d8d2c4);
+  font: 600 20px "Songti SC", serif;
+}
+.product-image-wrap.image-fallback img { opacity: 0; }
+.product-tags { position: absolute; left: 14px; top: 14px; z-index: 2; display: flex; gap: 6px; }
+.product-tags span {
+  padding: 7px 9px;
+  color: var(--white);
+  background: var(--green);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+.product-info { padding: 22px; }
+.product-pets { margin: 0 0 8px; color: var(--brown); font-size: 9px; letter-spacing: 0.13em; }
+.product-info h3 { margin: 0 0 10px; font: 600 21px "Songti SC", serif; }
+.product-description { min-height: 42px; margin: 0; color: var(--muted); font-size: 11px; line-height: 1.8; }
+.product-meta {
+  margin-top: 19px;
+  padding-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--line);
+}
+.product-meta span { color: var(--muted); font-size: 10px; }
+.product-meta strong { font: 700 15px Arial, sans-serif; }
+.product-actions { margin-top: 17px; display: grid; grid-template-columns: 1fr 44px; gap: 8px; }
+.detail-button,
+.add-button {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  background: transparent;
+  cursor: pointer;
+  font-size: 11px;
+}
+.detail-button:hover { border-color: var(--green); color: var(--green); }
+.add-button {
+  color: var(--white);
+  background: var(--green);
+  border-color: var(--green);
+  font-size: 20px;
+}
+
+.care-note {
+  padding: 100px clamp(24px, 7vw, 112px);
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 10vw;
+  align-items: end;
+  color: var(--white);
+  background: var(--green);
+}
+.care-note .kicker { color: #d8c5ad; }
+.care-note > p { margin: 0; color: rgba(255, 255, 255, 0.72); font-size: 12px; line-height: 2; }
+
+.site-footer {
+  padding: 72px clamp(24px, 7vw, 112px) 25px;
+  display: grid;
+  grid-template-columns: 2fr 0.8fr 1.3fr 1.5fr;
+  gap: 55px;
+  color: var(--white);
+  background: var(--ink);
+}
+.footer-brand { display: flex; gap: 14px; }
+.footer-brand strong { font: 600 22px "Songti SC", serif; }
+.site-footer h2 { margin: 0 0 18px; color: #c7b59e; font-size: 10px; letter-spacing: 0.15em; }
+.site-footer p,
+.site-footer a { display: block; margin: 0 0 8px; color: #9ba098; font-size: 10px; line-height: 1.8; }
+.copyright {
+  grid-column: 1 / -1;
+  margin-top: 24px !important;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  padding: 24px;
+  display: grid;
+  place-items: center;
+  background: rgba(18, 25, 20, 0.72);
+  backdrop-filter: blur(6px);
+}
+.modal-backdrop[hidden] { display: none; }
+.product-modal {
+  width: min(900px, 96vw);
+  max-height: 90vh;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: 48% 52%;
+  position: relative;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  animation: modal-in 0.25s ease;
+}
+.modal-close {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: rgba(252, 250, 245, 0.9);
+  cursor: pointer;
+  font-size: 28px;
+  font-weight: 300;
+}
+.modal-image-wrap { min-height: 560px; background: #d8d2c6; }
+.modal-image-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.modal-content { padding: 58px 48px 42px; }
+.modal-content h2 { margin: 0; font: 600 36px "Songti SC", serif; }
+.modal-price { margin: 14px 0 25px; color: var(--green); font: 700 19px Arial, sans-serif; }
+.modal-description { color: var(--muted); font-size: 12px; line-height: 1.9; }
+.modal-content dl { margin: 26px 0; border-top: 1px solid var(--line); }
+.modal-content dl div {
+  padding: 12px 0;
+  display: grid;
+  grid-template-columns: 65px 1fr;
+  border-bottom: 1px solid var(--line);
+  font-size: 11px;
+  line-height: 1.6;
+}
+.modal-content dt { color: var(--muted); }
+.modal-content dd { margin: 0; }
+.modal-add { width: 100%; }
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  z-index: 150;
+  padding: 13px 20px;
+  color: var(--white);
+  background: var(--ink);
+  box-shadow: var(--shadow);
+  font-size: 11px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 12px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+
+@keyframes card-in { from { opacity: 0; transform: translateY(10px); } }
+@keyframes modal-in { from { opacity: 0; transform: translateY(12px) scale(0.99); } }
+
+@media (max-width: 980px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-copy { min-height: 650px; }
+  .hero-media { min-height: 68vh; }
+  .intro-copy { grid-template-columns: 1fr; gap: 25px; }
+  .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .site-footer { grid-template-columns: 1.6fr 0.8fr 1.2fr; }
+  .site-footer > div:last-of-type { grid-column: 1 / -1; }
+}
+
+@media (max-width: 680px) {
+  .site-header { height: 70px; padding: 0 18px; position: sticky; top: 0; }
+  .main-nav { display: none; }
+  .brand-symbol { width: 36px; height: 36px; font-size: 18px; }
+  .brand-name { font-size: 16px; }
+  .bag-placeholder > span { display: none; }
+  .hero { min-height: 0; }
+  .hero-copy { min-height: 590px; padding: 70px 24px 35px; }
+  .hero h1 { font-size: 44px; }
+  .hero-description { font-size: 13px; }
+  .hero-points { margin-top: 62px; }
+  .hero-media { min-height: 520px; }
+  .hero-media img { object-position: 60% center; }
+  .intro { padding: 82px 24px; }
+  .principles { grid-template-columns: 1fr; gap: 36px; }
+  .products-section { padding: 80px 14px; }
+  .products-heading { margin: 0 8px 34px; display: block; }
+  .products-heading > p { margin-top: 18px; }
+  .product-grid { gap: 9px; }
+  .product-image-wrap { aspect-ratio: 0.9; }
+  .product-info { padding: 15px 13px; }
+  .product-info h3 { font-size: 17px; }
+  .product-description { min-height: 54px; }
+  .product-meta { display: block; }
+  .product-meta span { display: block; margin-bottom: 6px; }
+  .care-note { padding: 80px 24px; grid-template-columns: 1fr; gap: 40px; }
+  .site-footer { padding: 58px 24px 24px; grid-template-columns: 1fr 1fr; gap: 40px 25px; }
+  .footer-brand { grid-column: 1 / -1; }
+  .product-modal { grid-template-columns: 1fr; }
+  .modal-image-wrap { min-height: 290px; height: 34vh; }
+  .modal-content { padding: 34px 22px 25px; }
+  .modal-content h2 { font-size: 29px; }
+}
+
+@media (max-width: 390px) {
+  .product-grid { grid-template-columns: 1fr; }
+  .product-description { min-height: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
