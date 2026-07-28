@@ -104,6 +104,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 
 body.account-open { overflow: hidden; }
+body.cart-open { overflow: hidden; }
 .account-backdrop {
   position: fixed;
   inset: 0;
@@ -192,6 +193,77 @@ body.account-open { overflow: hidden; }
 .address-item p { margin: 8px 0 12px; color: var(--muted); font-size: 11px; line-height: 1.7; }
 .address-actions { display: flex; gap: 14px; }
 .address-actions button { padding: 0; border: 0; color: var(--brown); background: transparent; font-size: 10px; font-weight: 800; cursor: pointer; }
+.cart-backdrop,
+.checkout-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  background: rgba(20, 29, 24, 0.36);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+}
+.cart-backdrop[hidden],
+.checkout-backdrop[hidden] { display: none; }
+.cart-drawer {
+  width: min(470px, 100%);
+  height: 100%;
+  margin-left: auto;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  color: var(--dark);
+  background: #fffdf8;
+  box-shadow: -25px 0 80px rgba(20, 29, 24, 0.2);
+  animation: cart-in 0.24s ease;
+}
+.cart-header { padding: 28px 30px 22px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.cart-header h2 { margin: 5px 0 0; font: 600 30px "Songti SC", serif; }
+.cart-close { width: 44px; height: 44px; border: 0; color: var(--green); background: transparent; font-size: 28px; cursor: pointer; }
+.cart-items { overflow-y: auto; padding: 12px 30px; }
+.cart-empty { padding: 70px 10px; color: var(--muted); text-align: center; font-size: 12px; line-height: 1.8; }
+.cart-item { padding: 18px 0; display: grid; grid-template-columns: 78px minmax(0, 1fr); gap: 15px; border-bottom: 1px solid var(--line); }
+.cart-item img { width: 78px; height: 88px; object-fit: cover; background: #e4dfd5; }
+.cart-item-head { display: flex; justify-content: space-between; gap: 12px; }
+.cart-item-head strong { font: 600 16px "Songti SC", serif; }
+.cart-item-head span { font-size: 12px; font-weight: 800; }
+.cart-item-spec { margin: 7px 0 12px; color: var(--muted); font-size: 10px; }
+.cart-item-bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.quantity-control { display: grid; grid-template-columns: 36px 38px 36px; min-height: 36px; border: 1px solid var(--line); }
+.quantity-control button { border: 0; background: transparent; cursor: pointer; font-size: 17px; }
+.quantity-control span { display: grid; place-items: center; font-size: 11px; }
+.cart-remove { padding: 7px 0; border: 0; color: var(--brown); background: transparent; font-size: 10px; font-weight: 800; cursor: pointer; }
+.cart-footer { padding: 20px 30px 28px; border-top: 1px solid var(--line); background: var(--cream); }
+.cart-clear { padding: 0; border: 0; color: var(--brown); background: transparent; font-size: 10px; font-weight: 800; cursor: pointer; }
+.cart-total { margin: 14px 0 8px; display: flex; align-items: center; justify-content: space-between; }
+.cart-total span { font-size: 12px; }
+.cart-total strong { color: var(--green); font-size: 22px; }
+.cart-footer > p { margin: 0 0 14px; color: var(--muted); font-size: 9px; line-height: 1.6; }
+.cart-checkout { width: 100%; border: 0; cursor: pointer; }
+.cart-checkout:disabled { opacity: 0.45; cursor: not-allowed; }
+.checkout-backdrop { display: grid; place-items: center; padding: 20px; }
+.checkout-dialog {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  padding: 38px;
+  background: #fffdf8;
+  box-shadow: 0 30px 100px rgba(20, 29, 24, 0.25);
+}
+.checkout-dialog h2 { margin: 8px 0 12px; font: 600 31px "Songti SC", serif; }
+.checkout-summary { margin: 0 0 22px; color: var(--muted); font-size: 12px; }
+.checkout-address-option { display: block; position: relative; margin-bottom: 10px; cursor: pointer; }
+.checkout-address-option input { position: absolute; opacity: 0; pointer-events: none; }
+.checkout-address-card { padding: 16px; border: 1px solid var(--line); background: white; }
+.checkout-address-option input:checked + .checkout-address-card { border-color: var(--green); box-shadow: inset 3px 0 0 var(--green); }
+.checkout-address-card strong { display: block; margin-bottom: 7px; font-size: 12px; }
+.checkout-address-card span { color: var(--muted); font-size: 10px; line-height: 1.7; }
+.checkout-manage-address { margin: 8px 0 6px; padding: 0; border: 0; color: var(--green); background: transparent; font-size: 11px; font-weight: 800; cursor: pointer; }
+.checkout-confirm { width: 100%; border: 0; cursor: pointer; }
+.success-dialog { text-align: center; }
+.success-mark { width: 60px; height: 60px; margin: 0 auto 20px; display: grid; place-items: center; border-radius: 50%; color: white; background: var(--green); font-size: 28px; }
+.success-dialog > p:not(.kicker):not(.success-mark) { color: var(--muted); font-size: 12px; line-height: 1.8; }
+.success-close { margin-top: 12px; border: 0; cursor: pointer; }
+@keyframes cart-in { from { transform: translateX(30px); opacity: 0; } }
 .bag-placeholder {
   min-height: 44px;
   padding: 0;
@@ -722,6 +794,11 @@ body.account-open { overflow: hidden; }
   .address-layout { grid-template-columns: 1fr; }
   .address-form-grid { grid-template-columns: 1fr; }
   .address-detail { grid-column: auto; }
+  .cart-drawer { width: min(94vw, 470px); }
+  .cart-header,
+  .cart-items,
+  .cart-footer { padding-left: 18px; padding-right: 18px; }
+  .checkout-dialog { padding: 32px 20px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

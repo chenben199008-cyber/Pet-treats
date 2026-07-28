@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="styles.css">
   <script src="account.js" defer></script>
   <script src="script.js" defer></script>
+  <script src="cart.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">跳到主要内容</a>
@@ -235,6 +236,50 @@
           <div id="address-list"></div>
         </section>
       </div>
+    </section>
+  </div>
+
+  <div class="cart-backdrop" id="cart-backdrop" hidden>
+    <aside class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-title" tabindex="-1">
+      <header class="cart-header">
+        <div>
+          <p class="kicker">YOUR BAG</p>
+          <h2 id="cart-title">购物袋</h2>
+        </div>
+        <button class="cart-close" type="button" aria-label="关闭购物车">×</button>
+      </header>
+      <div class="cart-items" id="cart-items"></div>
+      <footer class="cart-footer">
+        <button class="cart-clear" id="cart-clear" type="button">清空购物车</button>
+        <div class="cart-total"><span>商品总额</span><strong id="cart-total">¥0</strong></div>
+        <p>本页面仅用于模拟购物流程，不产生真实扣款或配送。</p>
+        <button class="button button-primary cart-checkout" id="cart-checkout" type="button">去结算</button>
+      </footer>
+    </aside>
+  </div>
+
+  <div class="checkout-backdrop" id="checkout-backdrop" hidden>
+    <section class="checkout-dialog" role="dialog" aria-modal="true" aria-labelledby="checkout-title" tabindex="-1">
+      <button class="account-close checkout-close" type="button" aria-label="关闭地址确认">×</button>
+      <p class="kicker">CONFIRM ORDER</p>
+      <h2 id="checkout-title">确认收货地址</h2>
+      <p class="checkout-summary" id="checkout-summary"></p>
+      <div class="checkout-addresses" id="checkout-addresses"></div>
+      <button class="checkout-manage-address" id="checkout-manage-address" type="button">新增或管理地址</button>
+      <p class="account-error" id="checkout-error" aria-live="polite"></p>
+      <button class="button button-primary checkout-confirm" id="checkout-confirm" type="button">确认购买</button>
+      <p class="account-note">确认后只会生成本地演示订单，不会扣款、发货或上传资料。</p>
+    </section>
+  </div>
+
+  <div class="checkout-backdrop" id="order-success" hidden>
+    <section class="checkout-dialog success-dialog" role="dialog" aria-modal="true" aria-labelledby="success-title" tabindex="-1">
+      <p class="success-mark" aria-hidden="true">✓</p>
+      <p class="kicker">ORDER RECORDED</p>
+      <h2 id="success-title">模拟购买成功</h2>
+      <p id="success-order-number"></p>
+      <p>这是一笔本地演示订单，不会产生真实扣款、配送或信息上传。</p>
+      <button class="button button-primary success-close" type="button">返回继续选购</button>
     </section>
   </div>
 </body>

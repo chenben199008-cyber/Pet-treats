@@ -283,9 +283,9 @@ function showToast(message) {
 }
 
 function showCartPlaceholder(product) {
-  if (!window.WeiheAccount?.requireLoginForPurchase(document.activeElement)) return;
-  const suffix = product ? `“${product.name}”已记录，` : "";
-  showToast(`${suffix}购物车将在下一阶段开放`);
+  if (!window.WeiheCart) return;
+  if (product) window.WeiheCart.addProduct(product, document.activeElement);
+  else window.WeiheCart.open(document.activeElement);
 }
 
 grid.addEventListener("click", (event) => {

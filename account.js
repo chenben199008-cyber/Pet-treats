@@ -237,7 +237,11 @@ window.WeiheAccount = {
     openLogin("游客可以浏览商品，但购买和填写收货地址前需要先登录。", trigger, true);
     return false;
   },
-  openAccountCenter
+  openAccountCenter,
+  isLoggedIn() {
+    return getSession()?.role === "user";
+  },
+  getUser
 };
 
 updateAccountButtons();
