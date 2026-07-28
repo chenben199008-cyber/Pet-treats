@@ -362,6 +362,55 @@ body.account-open { overflow: hidden; }
   font-size: 12px;
   line-height: 1.9;
 }
+.product-filters {
+  margin: 0 0 34px;
+  padding: 26px 28px;
+  border: 1px solid rgba(31, 73, 56, 0.13);
+  background: rgba(245, 241, 232, 0.74);
+}
+.filter-heading {
+  margin-bottom: 22px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+.filter-heading .kicker { margin-bottom: 7px; }
+.filter-heading h3 { margin: 0; font: 600 24px "Songti SC", serif; }
+.filter-count { margin: 0; color: var(--brown); font-size: 11px; font-weight: 800; }
+.filter-group {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+.filter-group + .filter-group { margin-top: 13px; }
+.filter-label { color: var(--muted); font-size: 10px; font-weight: 700; }
+.filter-scroll { display: flex; flex-wrap: wrap; gap: 8px; }
+.filter-button {
+  min-height: 42px;
+  padding: 0 17px;
+  border: 1px solid var(--line);
+  color: var(--dark);
+  background: #fffdf8;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+.filter-button:hover { border-color: var(--green); }
+.filter-button[aria-pressed="true"] { color: var(--white); border-color: var(--green); background: var(--green); }
+.filter-button:focus-visible { outline: 3px solid rgba(31, 73, 56, 0.18); outline-offset: 2px; }
+.product-empty {
+  padding: 70px 24px;
+  border: 1px dashed rgba(31, 73, 56, 0.28);
+  text-align: center;
+  background: rgba(255, 253, 248, 0.45);
+}
+.product-empty[hidden] { display: none; }
+.product-empty h3 { margin: 10px 0; font: 600 26px "Songti SC", serif; }
+.product-empty > p:not(.kicker) { margin: 0 0 24px; color: var(--muted); font-size: 12px; }
+.product-empty .button { border: 0; cursor: pointer; }
 .hot-ranking {
   margin: 0 clamp(6px, 2vw, 32px) 48px;
   padding: 26px;
@@ -634,6 +683,19 @@ body.account-open { overflow: hidden; }
   .products-section { padding: 80px 14px; }
   .products-heading { margin: 0 8px 34px; display: block; }
   .products-heading > p { margin-top: 18px; }
+  .product-filters { margin: 0 0 30px; padding: 22px 16px; }
+  .filter-heading { align-items: flex-start; }
+  .filter-group { grid-template-columns: 1fr; gap: 9px; }
+  .filter-scroll {
+    margin: 0 -16px;
+    padding: 0 16px 7px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-inline: contain;
+  }
+  .filter-scroll::-webkit-scrollbar { display: none; }
+  .filter-button { min-height: 44px; flex: 0 0 auto; }
   .hot-ranking { margin: 0 0 34px; padding: 22px 16px; gap: 18px; }
   .ranking-list { grid-template-columns: 1fr; }
   .ranking-item { grid-template-columns: 28px 58px minmax(0, 1fr) auto; }

@@ -92,6 +92,23 @@
         </div>
         <p>猫咪的细腻偏好，狗狗的快乐咀嚼，<br>都值得被认真对待。</p>
       </div>
+      <section class="product-filters" aria-labelledby="filter-title">
+        <div class="filter-heading">
+          <div>
+            <p class="kicker">FIND THEIR FAVORITE</p>
+            <h3 id="filter-title">按喜好挑选</h3>
+          </div>
+          <p class="filter-count" id="filter-count" aria-live="polite">找到 6 款商品</p>
+        </div>
+        <div class="filter-group">
+          <span class="filter-label">宠物分类</span>
+          <div class="filter-scroll" id="pet-filters" aria-label="宠物分类"></div>
+        </div>
+        <div class="filter-group">
+          <span class="filter-label">食品分类</span>
+          <div class="filter-scroll" id="food-filters" aria-label="食品分类"></div>
+        </div>
+      </section>
       <section class="hot-ranking" aria-labelledby="ranking-title">
         <div class="ranking-title">
           <p class="kicker">BEST SELLERS</p>
@@ -100,6 +117,12 @@
         <div class="ranking-list" id="ranking-list"></div>
       </section>
       <div class="product-grid" id="product-grid" aria-live="polite"></div>
+      <div class="product-empty" id="product-empty" hidden>
+        <p class="kicker">NO MATCHES YET</p>
+        <h3>暂时没有符合条件的零食</h3>
+        <p>换一个分类看看，或者恢复全部商品。</p>
+        <button class="button button-primary" type="button" id="reset-filters">查看全部商品</button>
+      </div>
     </section>
 
     <section class="care-note" aria-label="喂食提示">

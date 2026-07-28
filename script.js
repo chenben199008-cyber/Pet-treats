@@ -99,9 +99,18 @@ const closeButton = modalBackdrop.querySelector(".modal-close");
 const modalAddButton = modalBackdrop.querySelector(".modal-add");
 const toast = document.querySelector("#toast");
 const bagButton = document.querySelector(".bag-placeholder");
+const petFilters = document.querySelector("#pet-filters");
+const foodFilters = document.querySelector("#food-filters");
+const filterCount = document.querySelector("#filter-count");
+const productEmpty = document.querySelector("#product-empty");
+const resetFiltersButton = document.querySelector("#reset-filters");
 let lastFocusedElement = null;
 let toastTimer = null;
 let activeProduct = null;
+let activePetType = "全部";
+let activeFoodCategory = "全部食品";
+
+const PET_TYPES = ["全部", "猫咪", "狗狗"];
 
 function formatPrice(priceCents) {
   return `¥${(priceCents / 100).toFixed(0)}`;
@@ -161,11 +170,78 @@ function renderHotRanking() {
   `).join("");
 }
 
-function renderProducts() {
-  const fragment = document.createDocumentFragment();
-  products.forEach((product, index) => fragment.appendChild(createProductCard(product, index)));
-  grid.replaceChildren(fragment);
+function getAvailableFoodCategories() {
+  const relevantProducts = activePetType === "全部"
+    ? products
+    : products.filter((product) => product.petTypes.includes(activePetType));
+  return ["全部食品", ...new Set(relevantProducts.map((product) => product.foodCategory))];
 }
+
+function getFilteredProducts() {
+  return products.filter((product) => {
+    const matchesPet = activePetType === "全部" || product.petTypes.includes(activePetType);
+    const matchesFood = activeFoodCategory === "全部食品" || product.foodCategory === activeFoodCategory;
+    return matchesPet && matchesFood;
+  });
+}
+
+function createFilterButton(label, type, activeValue) {
+  const button = document.createElement("button");
+  button.className = "filter-button";
+  button.type = "button";
+  button.textContent = label;
+  button.dataset.filterType = type;
+  button.dataset.filterValue = label;
+  button.setAttribute("aria-pressed", String(label === activeValue));
+  return button;
+}
+
+function renderFilters() {
+  petFilters.replaceChildren(...PET_TYPES.map((label) => createFilterButton(label, "pet", activePetType)));
+  const foodCategories = getAvailableFoodCategories();
+  if (!foodCategories.includes(activeFoodCategory)) activeFoodCategory = "全部食品";
+  foodFilters.replaceChildren(
+    ...foodCategories.map((label) => createFilterButton(label, "food", activeFoodCategory))
+  );
+}
+
+function renderProducts(productList = products) {
+  const fragment = document.createDocumentFragment();
+  productList.forEach((product, index) => fragment.appendChild(createProductCard(product, index)));
+  grid.replaceChildren(fragment);
+  grid.hidden = productList.length === 0;
+  productEmpty.hidden = productList.length !== 0;
+  filterCount.textContent = productList.length
+    ? `找到 ${productList.length} 款商品`
+    : "暂时没有匹配商品";
+}
+
+function applyFilters() {
+  renderFilters();
+  renderProducts(getFilteredProducts());
+}
+
+function handleFilterClick(event) {
+  const button = event.target.closest("[data-filter-type]");
+  if (!button) return;
+  if (button.dataset.filterType === "pet") {
+    activePetType = button.dataset.filterValue;
+    const availableFoods = getAvailableFoodCategories();
+    if (!availableFoods.includes(activeFoodCategory)) activeFoodCategory = "全部食品";
+  } else {
+    activeFoodCategory = button.dataset.filterValue;
+  }
+  applyFilters();
+}
+
+petFilters.addEventListener("click", handleFilterClick);
+foodFilters.addEventListener("click", handleFilterClick);
+resetFiltersButton.addEventListener("click", () => {
+  activePetType = "全部";
+  activeFoodCategory = "全部食品";
+  applyFilters();
+  petFilters.querySelector('[aria-pressed="true"]')?.focus();
+});
 
 rankingList.addEventListener("click", (event) => {
   const trigger = event.target.closest("[data-ranking]");
@@ -253,4 +329,4 @@ document.addEventListener("keydown", (event) => {
 });
 
 renderHotRanking();
-renderProducts();
+applyFilters();
