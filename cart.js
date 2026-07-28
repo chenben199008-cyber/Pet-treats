@@ -183,7 +183,31 @@ function confirmOrder() {
     checkoutError.textContent = "请选择一个收货地址。";
     return;
   }
+  const user = window.WeiheAccount.getUser();
+  const address = user.addressBook.find((item) => item.id === selectedAddress.value);
+  const totals = getCartTotals();
+  const orderItems = getCartDetails().map(({ product, quantity }) => ({
+    productId: product.id,
+    name: product.name,
+    quantity,
+    priceCents: product.priceCents
+  }));
   const orderNumber = `WH${Date.now().toString().slice(-10)}`;
+  const order = {
+    id: orderNumber,
+    createdAt: new Date().toISOString(),
+    items: orderItems,
+    quantity: totals.quantity,
+    totalCents: totals.totalCents,
+    region: address ? `${address.province} ${address.city} ${address.district}` : "未填写",
+    status: "待处理"
+  };
+  try {
+    const existingOrders = JSON.parse(localStorage.getItem("weiheDemoOrders"));
+    const orders = Array.isArray(existingOrders) ? existingOrders : [];
+    orders.unshift(order);
+    localStorage.setItem("weiheDemoOrders", JSON.stringify(orders));
+  } catch {}
   saveCart([]);
   renderCart();
   closeCheckout();

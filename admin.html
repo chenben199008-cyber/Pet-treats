@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="威禾小食演示管理后台">
+  <title>管理后台｜威禾小食</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="admin.css">
+  <script src="product-data.js" defer></script>
+  <script src="product-store.js" defer></script>
+  <script src="admin.js" defer></script>
+</head>
+<body>
+  <aside class="admin-sidebar">
+    <a class="admin-brand" href="admin.html"><span>禾</span><strong>威禾小食<small>演示管理后台</small></strong></a>
+    <nav class="admin-nav" aria-label="后台导航">
+      <button class="is-active" type="button" data-panel="overview">数据概览</button>
+      <button type="button" data-panel="products">商品管理</button>
+      <button type="button" data-panel="orders">订单管理</button>
+      <button type="button" data-panel="users">用户概览</button>
+    </nav>
+    <a class="back-store" href="index.html">← 返回商城</a>
+  </aside>
+
+  <main class="admin-main">
+    <header class="admin-topbar">
+      <div><p>WEIHE DEMO CONSOLE</p><h1 id="page-title">数据概览</h1></div>
+      <span>本地演示 · 不连接真实业务</span>
+    </header>
+    <div class="demo-warning">本页面没有服务器、数据库和真实权限认证，请勿用于处理真实订单或客户资料。</div>
+
+    <section class="admin-panel" id="panel-overview">
+      <div class="metric-grid">
+        <article><span>商品数量</span><strong id="metric-products">0</strong><small>当前商品</small></article>
+        <article><span>本月演示销量</span><strong id="metric-sales">0</strong><small>商品月销量合计</small></article>
+        <article><span>演示订单</span><strong id="metric-orders">0</strong><small>本地订单记录</small></article>
+        <article><span>演示销售额</span><strong id="metric-revenue">¥0</strong><small>本地订单合计</small></article>
+      </div>
+      <div class="overview-grid">
+        <section class="admin-card"><div class="card-heading"><h2>热销商品</h2><span>按月销量</span></div><div id="overview-top-products"></div></section>
+        <section class="admin-card"><div class="card-heading"><h2>最近订单</h2><span>本地演示</span></div><div id="overview-orders"></div></section>
+      </div>
+    </section>
+
+    <section class="admin-panel" id="panel-products" hidden>
+      <div class="admin-card">
+        <div class="section-toolbar">
+          <div><h2>商品管理</h2><p id="product-result-count"></p></div>
+          <button class="primary-action" id="add-product" type="button">＋ 新增商品</button>
+        </div>
+        <div class="filter-toolbar">
+          <input id="product-search" type="search" placeholder="搜索商品名称">
+          <select id="product-pet-filter"><option value="">全部宠物</option><option>猫咪</option><option>狗狗</option></select>
+          <select id="product-food-filter"><option value="">全部食品</option></select>
+          <select id="product-status-filter"><option value="">全部状态</option><option value="active">上架</option><option value="inactive">下架</option></select>
+          <button class="secondary-action" id="reset-product-data" type="button">恢复基础数据</button>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>商品</th><th>适用</th><th>分类</th><th>规格</th><th>价格</th><th>月销量</th><th>状态</th><th>操作</th></tr></thead>
+            <tbody id="product-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="admin-panel" id="panel-orders" hidden>
+      <div class="admin-card">
+        <div class="section-toolbar"><div><h2>订单管理</h2><p>商城模拟购买会记录在这里</p></div></div>
+        <div class="filter-toolbar">
+          <input id="order-search" type="search" placeholder="搜索订单编号">
+          <select id="order-status-filter"><option value="">全部状态</option><option>待处理</option><option>已确认</option><option>已发货</option><option>已完成</option><option>已取消</option></select>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>订单编号</th><th>时间</th><th>商品</th><th>数量</th><th>金额</th><th>收货地区</th><th>状态</th></tr></thead>
+            <tbody id="order-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="admin-panel" id="panel-users" hidden>
+      <div class="admin-card">
+        <div class="section-toolbar"><div><h2>用户概览</h2><p>仅显示当前浏览器中的脱敏演示资料</p></div></div>
+        <div id="user-overview"></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="admin-modal-backdrop" id="product-editor" hidden>
+    <section class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+      <button class="modal-x" id="close-product-editor" type="button" aria-label="关闭">×</button>
+      <h2 id="editor-title">新增商品</h2>
+      <form id="product-form">
+        <input name="id" type="hidden">
+        <div class="form-grid">
+          <label>商品名称<input name="name" required maxlength="30"></label>
+          <label>价格（元）<input name="priceYuan" required type="number" min="1" step="1"></label>
+          <label>规格<input name="specification" required maxlength="30"></label>
+          <label>食品分类<input name="foodCategory" required maxlength="20"></label>
+          <label>图片路径<input name="image" placeholder="assets/example.jpg"></label>
+          <label>月销量<input name="monthlySales" required type="number" min="0" step="1"></label>
+          <label class="wide">简介<textarea name="description" required maxlength="120"></textarea></label>
+          <label class="wide">配料<input name="ingredients" required maxlength="100"></label>
+          <label class="wide">喂食建议<input name="feedingGuide" required maxlength="120"></label>
+          <label>标签（逗号分隔）<input name="tags" placeholder="新品, 冻干"></label>
+          <label>状态<select name="status"><option value="active">上架</option><option value="inactive">下架</option></select></label>
+          <fieldset class="wide"><legend>适用宠物</legend><label><input name="petTypes" type="checkbox" value="猫咪"> 猫咪</label><label><input name="petTypes" type="checkbox" value="狗狗"> 狗狗</label></fieldset>
+        </div>
+        <p class="form-error" id="product-form-error" aria-live="polite"></p>
+        <button class="primary-action full-action" type="submit">保存商品</button>
+      </form>
+    </section>
+  </div>
+</body>
+</html>
